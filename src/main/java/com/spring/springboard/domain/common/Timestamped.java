@@ -1,4 +1,4 @@
-package com.spring.springboard.common;
+package com.spring.springboard.domain.common;
 
 import jakarta.persistence.*;
 import lombok.Getter;

@@ -1,6 +1,6 @@
-package com.spring.springboard.board.entity;
+package com.spring.springboard.domain.board.entity;
 
-import com.spring.springboard.common.Timestamped;
+import com.spring.springboard.domain.common.Timestamped;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;

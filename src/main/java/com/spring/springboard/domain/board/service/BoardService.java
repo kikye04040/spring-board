@@ -1,6 +1,6 @@
-package com.spring.springboard.board.service;
+package com.spring.springboard.domain.board.service;
 
-import com.spring.springboard.board.repository.BoardRepository;
+import com.spring.springboard.domain.board.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

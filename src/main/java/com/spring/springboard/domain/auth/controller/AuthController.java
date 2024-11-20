@@ -1,6 +1,6 @@
-package com.spring.springboard.auth.controller;
+package com.spring.springboard.domain.auth.controller;
 
-import com.spring.springboard.auth.service.AuthService;
+import com.spring.springboard.domain.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
