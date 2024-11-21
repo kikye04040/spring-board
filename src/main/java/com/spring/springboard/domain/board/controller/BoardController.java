@@ -1,6 +1,6 @@
-package com.spring.springboard.board.controller;
+package com.spring.springboard.domain.board.controller;
 
-import com.spring.springboard.board.service.BoardService;
+import com.spring.springboard.domain.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
