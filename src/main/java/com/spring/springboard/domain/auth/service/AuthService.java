@@ -59,7 +59,7 @@ public class AuthService {
         // 토큰 생성
         String bearerToken = jwtUtil.createToken(newUser.getId(), newUser.getEmail(), newUser.getUserRole());
 
-        // 토큰 반환
+        // 결과로 토큰 반환
         return new SignupResponse(bearerToken);
     }
 
@@ -67,8 +67,39 @@ public class AuthService {
         return null;
     }
 
-    public SignupResponse adminSignup(@Valid AdminSignupRequest request) {
-        return null;
+    public SignupResponse adminSignup(AdminSignupRequest request) {
+        // 이메일 중복 검사
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new ApiException(ErrorStatus.BAD_REQUEST_EMAIL);
+        }
+
+        // 비밀번호 유효성 검사
+        if (!isPasswordValid(request.getPassword())) {
+            throw new ApiException(ErrorStatus.INVALID_PASSWORD_FOAM);
+        }
+
+        // 비밀번호 암호화
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
+
+        // 엔티티에 유저 정보 저장
+        User newAdminUser = new User(
+                request.getUsername(),
+                request.getEmail(),
+                encodedPassword,
+                request.getNickname(),
+                request.getPhoneNumber(),
+                request.getAddress(),
+                UserRole.ADMIN
+        );
+
+        // DB 에 저장
+        userRepository.save(newAdminUser);
+
+        // 토큰 생성
+        String bearerToken = jwtUtil.createToken(newAdminUser.getId(), newAdminUser.getEmail(), newAdminUser.getUserRole());
+
+        // 결과로 토큰 반환
+        return new SignupResponse(bearerToken);
     }
 
     public SigninResponse adminSignin(@Valid SigninRequest request) {
