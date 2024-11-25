@@ -63,8 +63,21 @@ public class AuthService {
         return new SignupResponse(bearerToken);
     }
 
-    public SigninResponse signin(@Valid SigninRequest request) {
-        return null;
+    public SigninResponse signin(SigninRequest request) {
+        // 유저 찾기
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_USER));
+
+        // 비밀번호 검증
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new ApiException(ErrorStatus.BAD_REQUEST_PASSWORD);
+        }
+
+        // 토큰 생성
+        String bearerToken = jwtUtil.createToken(user.getId(), user.getEmail(), user.getUserRole());
+
+        // 토큰 반환
+        return new SigninResponse(bearerToken);
     }
 
     public SignupResponse adminSignup(AdminSignupRequest request) {
