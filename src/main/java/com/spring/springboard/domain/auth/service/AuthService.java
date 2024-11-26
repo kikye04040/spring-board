@@ -116,7 +116,25 @@ public class AuthService {
     }
 
     public SigninResponse adminSignin(@Valid SigninRequest request) {
-        return null;
+        // 유저 찾기
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_USER));
+
+        // 비밀번호 검증
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new ApiException(ErrorStatus.BAD_REQUEST_PASSWORD);
+        }
+
+        // ADMIN 권한을 가졌는지 확인
+        if (user.getUserRole() != UserRole.ADMIN) {
+            throw new ApiException(ErrorStatus.FORBIDDEN_ACCESS);
+        }
+
+        // 토큰 생성
+        String bearerToken = jwtUtil.createToken(user.getId(), user.getEmail(), user.getUserRole());
+
+        // 토큰 반환
+        return new SigninResponse(bearerToken);
     }
 
     private boolean isPasswordValid(String password) {
