@@ -47,4 +47,8 @@ public class User extends Timestamped {
         this.address = address;
         this.userRole = userRole;
     }
+
+    public void changePassword(String newPassword) {
+        this.password = newPassword;
+    }
 }

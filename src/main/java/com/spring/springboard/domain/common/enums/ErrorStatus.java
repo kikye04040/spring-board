@@ -18,7 +18,8 @@ public enum ErrorStatus implements BaseCode {
     UNAUTHORIZED_EXPIRED_TOKEN(HttpStatus.UNAUTHORIZED, 401, "만료된 JWT 토큰입니다."),
     BAD_REQUEST_UNSUPPORTED_TOKEN(HttpStatus.BAD_REQUEST,400,"지원되지 않는 JWT 토큰입니다."),
     BAD_REQUEST_INVALID_TOKEN(HttpStatus.UNAUTHORIZED,401,"유효하지 않는 JWT 서명입니다."),
-    BAD_REQUEST_ILLEGAL_TOKEN(HttpStatus.BAD_REQUEST,400,"잘못된 JWT 토큰입니다.");
+    BAD_REQUEST_ILLEGAL_TOKEN(HttpStatus.BAD_REQUEST,400,"잘못된 JWT 토큰입니다."),
+    BAD_REQUEST_NEW_PASSWORD(HttpStatus.BAD_REQUEST, 400, "새 비밀번호는 기존 비밀번호와 같을 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final Integer statusCode;
