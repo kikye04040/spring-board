@@ -2,6 +2,7 @@ package com.spring.springboard.domain.user.controller;
 
 import com.spring.springboard.domain.common.dto.ApiResponse;
 import com.spring.springboard.domain.user.dto.request.PasswordChangeRequest;
+import com.spring.springboard.domain.user.entity.CustomUserDetails;
 import com.spring.springboard.domain.user.service.CustomUserDetailService;
 import com.spring.springboard.domain.user.service.UserService;
 import jakarta.validation.Valid;
@@ -21,7 +22,7 @@ public class UserController {
 
     @PutMapping
     public ResponseEntity<ApiResponse<Void>> changePassword(
-            @AuthenticationPrincipal CustomUserDetailService authUser,
+            @AuthenticationPrincipal CustomUserDetails authUser,
             @RequestBody @Valid PasswordChangeRequest request) {
         userService.changePassword(authUser, request);
         return ResponseEntity.ok(ApiResponse.onSuccess(null));
