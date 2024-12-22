@@ -23,7 +23,7 @@ public class AuthController {
     }
 
     @PostMapping("/auth/signin")
-    public com.spring.springboard.domain.auth.dto.response.SigninResponse signin(@Valid @RequestBody SigninRequest request) {
+    public SigninResponse signin(@Valid @RequestBody SigninRequest request) {
         return authService.signin(request);
     }
 
