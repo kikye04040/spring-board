@@ -41,7 +41,9 @@ public class SecurityConfig {
                 .logout(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.requestMatchers(
                         "/auth/**",
-                        "/admin/**").permitAll()
+                        "/admin/**",
+                        "/signup",
+                        "/signin").permitAll()
                 )
                 .build();
     }
