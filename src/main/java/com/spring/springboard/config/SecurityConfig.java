@@ -44,6 +44,7 @@ public class SecurityConfig {
                         "/admin/**",
                         "/signup",
                         "/signin").permitAll()
+                        .anyRequest().authenticated()
                 )
                 .build();
     }

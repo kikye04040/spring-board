@@ -22,7 +22,7 @@ public class UserService {
     @Transactional
     public void changePassword(CustomUserDetails authUser, PasswordChangeRequest request) {
         // 유저 존재 여부 확인
-        User user = userRepository.findById(authUser.getId())
+        User user = userRepository.findByEmail(authUser.getEmail())
                 .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_USER));
 
         // 기존 비밀번호 일치 여부 확인
