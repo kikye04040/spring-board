@@ -1,4 +1,4 @@
-package com.spring.springboard.domain.common;
+package com.spring.springboard.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
