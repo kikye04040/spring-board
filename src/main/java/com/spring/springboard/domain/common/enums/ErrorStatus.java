@@ -19,7 +19,10 @@ public enum ErrorStatus implements BaseCode {
     BAD_REQUEST_UNSUPPORTED_TOKEN(HttpStatus.BAD_REQUEST,400,"지원되지 않는 JWT 토큰입니다."),
     BAD_REQUEST_INVALID_TOKEN(HttpStatus.UNAUTHORIZED,401,"유효하지 않는 JWT 서명입니다."),
     BAD_REQUEST_ILLEGAL_TOKEN(HttpStatus.BAD_REQUEST,400,"잘못된 JWT 토큰입니다."),
-    BAD_REQUEST_NEW_PASSWORD(HttpStatus.BAD_REQUEST, 400, "새 비밀번호는 기존 비밀번호와 같을 수 없습니다.");
+    BAD_REQUEST_NEW_PASSWORD(HttpStatus.BAD_REQUEST, 400, "새 비밀번호는 기존 비밀번호와 같을 수 없습니다."),
+    FAIL_EMAIL_SENDING(HttpStatus.INTERNAL_SERVER_ERROR, 500, "이메일 전송에 실패했습니다."),
+    SEND_AUTH_EMAIL(HttpStatus.OK, 200, "메일이 전송되었습니다. 인증번호와 함께 다시 요청을 보내주십시오."),
+    FAIL_EMAIL_AUTHENTICATION(HttpStatus.BAD_REQUEST, 400, "인증번호가 일치하지 않습니다.");
 
     private final HttpStatus httpStatus;
     private final Integer statusCode;
