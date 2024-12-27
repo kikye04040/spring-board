@@ -1,6 +1,7 @@
 package com.spring.springboard.domain.auth.controller;
 
 import com.spring.springboard.domain.auth.dto.request.AdminSignupRequest;
+import com.spring.springboard.domain.auth.dto.request.EmailVerificationRequest;
 import com.spring.springboard.domain.auth.dto.request.SigninRequest;
 import com.spring.springboard.domain.auth.dto.request.SignupRequest;
 import com.spring.springboard.domain.auth.dto.response.SigninResponse;
@@ -25,6 +26,11 @@ public class AuthController {
     @PostMapping("/auth/signin")
     public SigninResponse signin(@Valid @RequestBody SigninRequest request) {
         return authService.signin(request);
+    }
+
+    @PostMapping("/auth/email")
+    public void emailVerification(@Valid @RequestBody EmailVerificationRequest request) {
+        authService.verifyEmail(request);
     }
 
     @PostMapping("/admin/signup")
