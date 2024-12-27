@@ -2,10 +2,12 @@ package com.spring.springboard.domain.auth.service;
 
 import com.spring.springboard.config.JwtUtil;
 import com.spring.springboard.domain.auth.dto.request.AdminSignupRequest;
+import com.spring.springboard.domain.auth.dto.request.EmailVerificationRequest;
 import com.spring.springboard.domain.auth.dto.request.SigninRequest;
 import com.spring.springboard.domain.auth.dto.request.SignupRequest;
 import com.spring.springboard.domain.auth.dto.response.SigninResponse;
 import com.spring.springboard.domain.auth.dto.response.SignupResponse;
+import com.spring.springboard.config.RedisUtil;
 import com.spring.springboard.domain.common.enums.ErrorStatus;
 import com.spring.springboard.domain.common.exception.ApiException;
 import com.spring.springboard.domain.user.entity.User;
@@ -25,7 +27,10 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
+    private final EmailService emailService;
+    private final RedisUtil redisUtil;
 
+    private static final String AUTH_EMAIL_KEY = "AuthEmail:";
     private static final String PASSWORD_PATTERN = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
 
     public SignupResponse signup(SignupRequest request) {
@@ -135,6 +140,29 @@ public class AuthService {
 
         // 토큰 반환
         return new SigninResponse(bearerToken);
+    }
+
+    public void verifyEmail(EmailVerificationRequest request) {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new ApiException(ErrorStatus.BAD_REQUEST_EMAIL);
+        }
+
+        String email = request.getEmail();
+        String redisKey = AUTH_EMAIL_KEY + request.getAuthNumber();
+        Integer authNumber = (Integer) redisUtil.get(redisKey);
+
+        // 메일 인증 중인 email 인지 확인
+        if (authNumber == null) {
+            emailService.sendEmail(redisKey, email);
+            throw new ApiException(ErrorStatus.SEND_AUTH_EMAIL);
+        }
+
+        // 인증번호 확인
+        if (authNumber != request.getAuthNumber()) {
+            throw new ApiException(ErrorStatus.FAIL_EMAIL_AUTHENTICATION);
+        }
+
+        redisUtil.delete(redisKey);
     }
 
     private boolean isPasswordValid(String password) {
