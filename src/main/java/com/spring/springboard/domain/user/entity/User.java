@@ -1,5 +1,6 @@
 package com.spring.springboard.domain.user.entity;
 
+import com.spring.springboard.domain.common.entity.Status;
 import com.spring.springboard.domain.common.entity.Timestamped;
 import com.spring.springboard.domain.user.enums.UserRole;
 import jakarta.persistence.*;
@@ -38,6 +39,10 @@ public class User extends Timestamped {
     @Column(nullable = false)
     private UserRole userRole;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Status status = Status.ACTIVATE;
+
     public User(String username, String email, String password, String nickname, String phoneNumber, String address, UserRole userRole) {
         this.username = username;
         this.email = email;
@@ -51,4 +56,10 @@ public class User extends Timestamped {
     public void changePassword(String newPassword) {
         this.password = newPassword;
     }
+
+    public void deactivate() {
+        this.status = Status.DELETED;
+    }
+
+    public void activate() { this.status = Status.ACTIVATE; }
 }
