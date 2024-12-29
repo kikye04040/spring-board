@@ -2,6 +2,7 @@ package com.spring.springboard.domain.user.controller;
 
 import com.spring.springboard.domain.common.dto.ApiResponse;
 import com.spring.springboard.domain.user.dto.request.PasswordChangeRequest;
+import com.spring.springboard.domain.user.dto.request.UserDeleteRequest;
 import com.spring.springboard.domain.user.dto.response.UserResponse;
 import com.spring.springboard.domain.user.entity.CustomUserDetails;
 import com.spring.springboard.domain.user.service.UserService;
@@ -28,5 +29,13 @@ public class UserController {
     @GetMapping("/{userId}")
     public ResponseEntity<ApiResponse<UserResponse>> getUser(@PathVariable Long userId) {
         return ResponseEntity.ok(ApiResponse.onSuccess(userService.getUser(userId)));
+    }
+
+    @DeleteMapping
+    public ResponseEntity<ApiResponse<Void>> deleteUser(
+            @AuthenticationPrincipal CustomUserDetails authUser,
+            @RequestBody @Valid UserDeleteRequest request) {
+        userService.deleteUser(authUser, request);
+        return ResponseEntity.ok(ApiResponse.onSuccess(null));
     }
 }
