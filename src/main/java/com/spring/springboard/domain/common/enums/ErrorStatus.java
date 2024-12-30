@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 public enum ErrorStatus implements BaseCode {
+
+    // auth & user
     BAD_REQUEST_EMAIL(HttpStatus.BAD_REQUEST, 400, "이미 존재하는 이메일입니다."),
     INVALID_PASSWORD_FOAM(HttpStatus.BAD_REQUEST, 400, "비밀번호는 최소 8자 이상이며, 대문자, 소문자, 숫자, 특수 문자를 포함해야 합니다."),
     NOT_FOUND_USER(HttpStatus.NOT_FOUND, 404, "해당 유저를 찾을 수 없습ㄴ디ㅏ."),
@@ -22,7 +24,10 @@ public enum ErrorStatus implements BaseCode {
     BAD_REQUEST_NEW_PASSWORD(HttpStatus.BAD_REQUEST, 400, "새 비밀번호는 기존 비밀번호와 같을 수 없습니다."),
     FAIL_EMAIL_SENDING(HttpStatus.INTERNAL_SERVER_ERROR, 500, "이메일 전송에 실패했습니다."),
     SEND_AUTH_EMAIL(HttpStatus.OK, 200, "메일이 전송되었습니다. 인증번호와 함께 다시 요청을 보내주십시오."),
-    FAIL_EMAIL_AUTHENTICATION(HttpStatus.BAD_REQUEST, 400, "인증번호가 일치하지 않습니다.");
+    FAIL_EMAIL_AUTHENTICATION(HttpStatus.BAD_REQUEST, 400, "인증번호가 일치하지 않습니다."),
+
+    // admin
+    BAD_REQUEST_ADMIN(HttpStatus.BAD_REQUEST, 400, "관리자만 접근 가능합니다.");
 
     private final HttpStatus httpStatus;
     private final Integer statusCode;
