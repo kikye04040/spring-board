@@ -46,7 +46,7 @@ public class UserService {
                 .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_USER));
 
         // 유저 정보 반환
-        return new UserResponse(user.getId(), user.getEmail());
+        return new UserResponse(user);
     }
 
     @Transactional
