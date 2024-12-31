@@ -28,7 +28,7 @@ public class AdminService {
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
     public void restoreUser(Long userId) {
-        User user = userRepository.findById(userId)
+        User user = userRepository.findByIdIncludingDeleted(userId)
                 .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_USER));
         user.activate();
     }
