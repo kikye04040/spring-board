@@ -59,4 +59,22 @@ public class BoardService {
 
         boardRepository.updateBoard(boardId, request.getTitle(), request.getDescription());
     }
+
+    public void deleteBoard(Long boardId, CustomUserDetails authUser) {
+        userRepository.findByEmail(authUser.getEmail())
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_USER));
+
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_BOARD));
+        board.delete();
+    }
+
+    public void restoreBoard(Long boardId, CustomUserDetails authUser) {
+        userRepository.findByEmail(authUser.getEmail())
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_USER));
+
+        Board board = boardRepository.findByIdIncludingDeleted(boardId)
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_BOARD));
+        board.restore();
+    }
 }
