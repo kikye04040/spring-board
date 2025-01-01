@@ -7,10 +7,14 @@ import com.spring.springboard.domain.board.service.BoardService;
 import com.spring.springboard.domain.user.entity.CustomUserDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,7 +34,13 @@ public class BoardController {
     public ResponseEntity<BoardResponse> getBoard(
             @PathVariable Long boardId,
             @AuthenticationPrincipal CustomUserDetails authUser) {
-        BoardResponse boardResponse = boardService.getBoard(boardId);
+        BoardResponse boardResponse = boardService.getBoard(boardId, authUser);
         return ResponseEntity.ok(boardResponse);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<BoardResponse>> getAllBoards(Pageable pageable, CustomUserDetails authUser) {
+        Page<BoardResponse> boardResponses = boardService.getAllBoards(pageable, authUser);
+        return ResponseEntity.ok(boardResponses);
     }
 }
