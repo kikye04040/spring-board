@@ -29,7 +29,10 @@ public class BoardService {
     }
 
     @Transactional
-    public BoardResponse getBoard(Long boardId) {
+    public BoardResponse getBoard(Long boardId, CustomUserDetails authUser) {
+        userRepository.findByEmail(authUser.getEmail())
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_USER));
+
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_BOARD));
 
