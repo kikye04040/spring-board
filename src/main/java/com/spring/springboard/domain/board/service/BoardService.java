@@ -10,6 +10,8 @@ import com.spring.springboard.domain.user.entity.CustomUserDetails;
 import com.spring.springboard.domain.user.entity.User;
 import com.spring.springboard.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,5 +39,13 @@ public class BoardService {
                 .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_BOARD));
 
         return new BoardResponse(board);
+    }
+
+    @Transactional
+    public Page<BoardResponse> getAllBoards(Pageable pageable, CustomUserDetails authUser) {
+        userRepository.findByEmail(authUser.getEmail())
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_USER));
+
+        return boardRepository.findAll(pageable).map(BoardResponse::new);
     }
 }
