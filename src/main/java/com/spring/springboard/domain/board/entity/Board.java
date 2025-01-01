@@ -6,6 +6,7 @@ import com.spring.springboard.domain.category.entity.Category;
 import com.spring.springboard.domain.comment.entity.Comment;
 import com.spring.springboard.domain.common.entity.Timestamped;
 import com.spring.springboard.domain.tag.entity.Tag;
+import com.spring.springboard.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -41,8 +42,12 @@ public class Board extends Timestamped {
     private int viewCount;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id", nullable = false)
+    private User author;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
@@ -63,6 +68,12 @@ public class Board extends Timestamped {
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private List<Tag> tags = new ArrayList<>();
+
+    public Board(String title, String description, User author) {
+        this.title = title;
+        this.description = description;
+        this.author = author;
+    }
 
     public void incrementViewCount() {
         this.viewCount++;
