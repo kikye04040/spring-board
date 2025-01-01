@@ -27,7 +27,10 @@ public enum ErrorStatus implements BaseCode {
     FAIL_EMAIL_AUTHENTICATION(HttpStatus.BAD_REQUEST, 400, "인증번호가 일치하지 않습니다."),
 
     // admin
-    BAD_REQUEST_ADMIN(HttpStatus.BAD_REQUEST, 400, "관리자만 접근 가능합니다.");
+    BAD_REQUEST_ADMIN(HttpStatus.BAD_REQUEST, 400, "관리자만 접근 가능합니다."),
+
+    // board
+    NOT_FOUND_BOARD(HttpStatus.NOT_FOUND, 404, "해당 게시물을 찾을 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final Integer statusCode;
