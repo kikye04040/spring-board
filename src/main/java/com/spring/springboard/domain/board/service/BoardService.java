@@ -48,4 +48,15 @@ public class BoardService {
 
         return boardRepository.findAll(pageable).map(BoardResponse::new);
     }
+
+    @Transactional
+    public void updateBoard(Long boardId, BoardRequest request, CustomUserDetails authUser) {
+        userRepository.findByEmail(authUser.getEmail())
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_USER));
+
+        boardRepository.findById(boardId)
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_BOARD));
+
+        boardRepository.updateBoard(boardId, request.getTitle(), request.getDescription());
+    }
 }
