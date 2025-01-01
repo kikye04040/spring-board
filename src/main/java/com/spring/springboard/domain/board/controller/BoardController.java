@@ -50,4 +50,20 @@ public class BoardController {
         boardService.updateBoard(boardId, request, authUser);
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("/{boardId}")
+    public ResponseEntity<BoardResponse> deleteBoard(
+            @PathVariable Long boardId,
+            @AuthenticationPrincipal CustomUserDetails authUser) {
+        boardService.deleteBoard(boardId, authUser);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{boardId}/restore")
+    public ResponseEntity<BoardResponse> restoreBoard(
+            @PathVariable Long boardId,
+            @AuthenticationPrincipal CustomUserDetails authUser) {
+        boardService.restoreBoard(boardId, authUser);
+        return ResponseEntity.noContent().build();
+    }
 }

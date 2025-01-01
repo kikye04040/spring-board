@@ -61,6 +61,9 @@ public class Board extends Timestamped {
     @Column(nullable = false)
     private int dislikeCount;
 
+    @Column(nullable = false)
+    private boolean deleted = false;
+
     @ManyToMany
     @JoinTable(
             name = "board_tags",
@@ -85,5 +88,13 @@ public class Board extends Timestamped {
 
     public void incrementDislikeCount() {
         this.dislikeCount++;
+    }
+
+    public void delete() {
+        this.deleted = true;
+    }
+
+    public void restore() {
+        this.deleted = false;
     }
 }
