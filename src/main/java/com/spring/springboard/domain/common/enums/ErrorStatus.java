@@ -30,7 +30,11 @@ public enum ErrorStatus implements BaseCode {
     BAD_REQUEST_ADMIN(HttpStatus.BAD_REQUEST, 400, "관리자만 접근 가능합니다."),
 
     // board
-    NOT_FOUND_BOARD(HttpStatus.NOT_FOUND, 404, "해당 게시물을 찾을 수 없습니다.");
+    NOT_FOUND_BOARD(HttpStatus.NOT_FOUND, 404, "해당 게시물을 찾을 수 없습니다."),
+
+    // category
+    CATEGORY_ALREADY_EXISTS(HttpStatus.BAD_REQUEST, 400,  "이미 존재하는 카테고리입니다."),
+    NOT_FOUND_CATEGORY(HttpStatus.NOT_FOUND, 404, "카테고리를 찾을 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final Integer statusCode;
