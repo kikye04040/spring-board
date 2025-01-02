@@ -66,4 +66,28 @@ public class BoardController {
         boardService.restoreBoard(boardId, authUser);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/{boardId}/view")
+    public ResponseEntity<Void> incrementViewCount(
+            @PathVariable Long boardId,
+            @AuthenticationPrincipal CustomUserDetails authUser) {
+        boardService.incrementViewCount(boardId, authUser);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{boardId}/like")
+    public ResponseEntity<Void> incrementLikeCount(
+            @PathVariable Long boardId,
+            @AuthenticationPrincipal CustomUserDetails authUser) {
+        boardService.incrementLikeCount(boardId, authUser);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{boardId}/dislike")
+    public ResponseEntity<Void> incrementDislikeCount(
+            @PathVariable Long boardId,
+            @AuthenticationPrincipal CustomUserDetails authUser) {
+        boardService.incrementDislikeCount(boardId, authUser);
+        return ResponseEntity.ok().build();
+    }
 }
