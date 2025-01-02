@@ -77,4 +77,31 @@ public class BoardService {
                 .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_BOARD));
         board.restore();
     }
+
+    public void incrementViewCount(Long boardId, CustomUserDetails authUser) {
+        userRepository.findByEmail(authUser.getEmail())
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_USER));
+
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_BOARD));
+        board.incrementViewCount();
+    }
+
+    public void incrementLikeCount(Long boardId, CustomUserDetails authUser) {
+        userRepository.findByEmail(authUser.getEmail())
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_USER));
+
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_BOARD));
+        board.incrementLikeCount();
+    }
+
+    public void incrementDislikeCount(Long boardId, CustomUserDetails authUser) {
+        userRepository.findByEmail(authUser.getEmail())
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_USER));
+
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_BOARD));
+        board.incrementDislikeCount();
+    }
 }
