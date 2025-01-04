@@ -34,4 +34,16 @@ public class Comment extends Timestamped {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User author;
+
+    public Comment(String content, Board board, User author) {
+        this.content = content;
+        this.board = board;
+        this.author = author;
+    }
+
+    public void update(String content) {
+    if (content != null && !content.isBlank()) {
+        this.content = content;
+    }
+    }
 }
