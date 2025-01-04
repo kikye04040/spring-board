@@ -40,4 +40,18 @@ public class CommentService {
         comment.update(content);
         return commentRepository.save(comment);
     }
+
+    public void deleteComment(Long commentId, CustomUserDetails authUser) {
+        userRepository.findByEmail(authUser.getEmail())
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_USER));
+
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_COMMENT));
+
+        if (!comment.getAuthor().getEmail().equals(authUser.getEmail())) {
+            throw new ApiException(ErrorStatus.FORBIDDEN_COMMENT_ACCESS);
+        }
+
+        commentRepository.delete(comment);
+    }
 }
