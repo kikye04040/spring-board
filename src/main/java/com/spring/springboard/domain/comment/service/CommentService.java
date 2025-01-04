@@ -11,7 +11,10 @@ import com.spring.springboard.domain.user.entity.User;
 import com.spring.springboard.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PutMapping;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +23,7 @@ public class CommentService {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
 
+    @Transactional
     public Comment createComment(Long boardId, String content, CustomUserDetails authUser) {
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_BOARD));
@@ -30,6 +34,7 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
+    @Transactional
     public Comment updateComment(Long commentId, String content, CustomUserDetails authUser) {
         userRepository.findByEmail(authUser.getEmail())
                 .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_USER));
@@ -41,6 +46,7 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
+    @Transactional
     public void deleteComment(Long commentId, CustomUserDetails authUser) {
         userRepository.findByEmail(authUser.getEmail())
                 .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_USER));
@@ -53,5 +59,13 @@ public class CommentService {
         }
 
         commentRepository.delete(comment);
+    }
+
+    @Transactional
+    public List<Comment> getCommentsByBoardId(Long boardId, CustomUserDetails authUser) {
+        userRepository.findByEmail(authUser.getEmail())
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_USER));
+
+        return commentRepository.findAllByBoardId(boardId);
     }
 }

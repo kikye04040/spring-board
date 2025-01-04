@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/boards/{boardId}/comments")
@@ -43,5 +45,13 @@ public class CommentController {
             @AuthenticationPrincipal CustomUserDetails authUser) {
         commentService.deleteComment(commentId, authUser);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Comment>> getCommentsByBoardId(
+            @PathVariable Long boardId,
+            @AuthenticationPrincipal CustomUserDetails authUser) {
+        List<Comment> comments = commentService.getCommentsByBoardId(boardId, authUser);
+        return ResponseEntity.ok(comments);
     }
 }
