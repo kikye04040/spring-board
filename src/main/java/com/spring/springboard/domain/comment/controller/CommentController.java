@@ -25,4 +25,14 @@ public class CommentController {
         Comment comment = commentService.createComment(boardId, request.getContent(), authUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(comment);
     }
+
+    @PutMapping("/{commentId}")
+    public ResponseEntity<Comment> updateComment(
+            @PathVariable Long boardId,
+            @PathVariable Long commentId,
+            @RequestBody @Valid CommentRequest request,
+            @AuthenticationPrincipal CustomUserDetails authUser) {
+        Comment comment = commentService.updateComment(commentId, request.getContent(), authUser);
+        return ResponseEntity.ok(comment);
+    }
 }

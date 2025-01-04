@@ -11,6 +11,7 @@ import com.spring.springboard.domain.user.entity.User;
 import com.spring.springboard.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @Service
 @RequiredArgsConstructor
@@ -26,6 +27,17 @@ public class CommentService {
                 .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_USER));
 
         Comment comment = new Comment(content, board, user);
+        return commentRepository.save(comment);
+    }
+
+    public Comment updateComment(Long commentId, String content, CustomUserDetails authUser) {
+        userRepository.findByEmail(authUser.getEmail())
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_USER));
+
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_COMMENT));
+
+        comment.update(content);
         return commentRepository.save(comment);
     }
 }
