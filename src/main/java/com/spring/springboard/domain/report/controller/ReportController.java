@@ -34,7 +34,7 @@ public class ReportController {
     public ResponseEntity<Report> resolveReport(
             @PathVariable Long reportId,
             @AuthenticationPrincipal CustomUserDetails authUser) {
-        Report report = reportService.resloveReport(reportId, authUser);
+        Report report = reportService.resolveReport(reportId, authUser);
         return ResponseEntity.ok(report);
     }
 

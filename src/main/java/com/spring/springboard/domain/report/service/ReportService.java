@@ -37,7 +37,7 @@ public class ReportService {
 
     @Transactional
     @PreAuthorize("hasRole('ADMIN')")
-    public Report resloveReport(Long reportId, CustomUserDetails authUser) {
+    public Report resolveReport(Long reportId, CustomUserDetails authUser) {
         userRepository.findByEmail(authUser.getEmail())
                 .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_USER));
 
