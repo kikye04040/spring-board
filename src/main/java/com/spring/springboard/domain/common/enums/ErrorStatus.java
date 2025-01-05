@@ -38,7 +38,10 @@ public enum ErrorStatus implements BaseCode {
 
     // comment
     NOT_FOUND_COMMENT(HttpStatus.NOT_FOUND, 404, "댓글을 찾을 수 없습니다."),
-    FORBIDDEN_COMMENT_ACCESS(HttpStatus.FORBIDDEN, 403, "댓글 작성자만 댓글 삭제가 가능합니다.");
+    FORBIDDEN_COMMENT_ACCESS(HttpStatus.FORBIDDEN, 403, "댓글 작성자만 댓글 삭제가 가능합니다."),
+
+    // report
+    NOT_FOUND_REPORT(HttpStatus.NOT_FOUND, 404, "해당 신고를 찾을 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final Integer statusCode;
