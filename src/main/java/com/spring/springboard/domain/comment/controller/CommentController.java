@@ -54,4 +54,12 @@ public class CommentController {
         List<Comment> comments = commentService.getCommentsByBoardId(boardId, authUser);
         return ResponseEntity.ok(comments);
     }
+
+    @GetMapping("/sorted-by-likes")
+    public ResponseEntity<List<Comment>> getCommentsSortedByLikes(
+            @PathVariable Long boardId,
+            @AuthenticationPrincipal CustomUserDetails authUser) {
+        List<Comment> comments = commentService.getCommentsByLikes(boardId, authUser);
+        return ResponseEntity.ok(comments);
+    }
 }
