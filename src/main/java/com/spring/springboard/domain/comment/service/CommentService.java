@@ -68,4 +68,12 @@ public class CommentService {
 
         return commentRepository.findAllByBoardId(boardId);
     }
+
+    @Transactional
+    public List<Comment> getCommentsByLikes(Long boardId, CustomUserDetails authUser) {
+        userRepository.findByEmail(authUser.getEmail())
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_USER));
+
+        return commentRepository.findByBoardIdOrderByLikeCountDesc(boardId);
+    }
 }

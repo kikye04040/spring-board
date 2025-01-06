@@ -35,6 +35,9 @@ public class Comment extends Timestamped {
     @JoinColumn(name = "user_id", nullable = false)
     private User author;
 
+    @Column(nullable = false)
+    private int likeCount = 0;
+
     public Comment(String content, Board board, User author) {
         this.content = content;
         this.board = board;
@@ -44,6 +47,10 @@ public class Comment extends Timestamped {
     public void update(String content) {
     if (content != null && !content.isBlank()) {
         this.content = content;
+        }
     }
+
+    public void incrementLikeCount() {
+        this.likeCount++;
     }
 }
