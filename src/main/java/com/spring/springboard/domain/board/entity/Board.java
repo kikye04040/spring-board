@@ -1,11 +1,9 @@
 package com.spring.springboard.domain.board.entity;
 
-import com.spring.springboard.domain.attachment.entity.Attachment;
 import com.spring.springboard.domain.board.enums.BoardStatus;
 import com.spring.springboard.domain.category.entity.Category;
 import com.spring.springboard.domain.comment.entity.Comment;
 import com.spring.springboard.domain.common.entity.Timestamped;
-import com.spring.springboard.domain.tag.entity.Tag;
 import com.spring.springboard.domain.user.entity.User;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -52,9 +50,6 @@ public class Board extends Timestamped {
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Attachment> attachments = new ArrayList<>();
-
     @Column(nullable = false)
     private int likeCount;
 
@@ -63,14 +58,6 @@ public class Board extends Timestamped {
 
     @Column(nullable = false)
     private boolean deleted = false;
-
-    @ManyToMany
-    @JoinTable(
-            name = "board_tags",
-            joinColumns = @JoinColumn(name = "board_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
-    private List<Tag> tags = new ArrayList<>();
 
     public Board(String title, String description, User author) {
         this.title = title;

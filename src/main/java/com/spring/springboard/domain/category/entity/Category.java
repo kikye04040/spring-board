@@ -1,13 +1,10 @@
 package com.spring.springboard.domain.category.entity;
 
 import com.spring.springboard.domain.board.entity.Board;
-import com.spring.springboard.domain.common.enums.ErrorStatus;
-import com.spring.springboard.domain.common.exception.ApiException;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.ArrayList;
 import java.util.List;
