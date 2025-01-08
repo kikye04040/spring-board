@@ -45,7 +45,7 @@ public class User extends Timestamped {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Status status = Status.ACTIVATE;
+    private Status status = Status.ACTIVE;
 
     public User(String username, String email, String password, String nickname, String phoneNumber, String address, UserRole userRole) {
         this.username = username;
@@ -65,5 +65,5 @@ public class User extends Timestamped {
         this.status = Status.DELETED;
     }
 
-    public void activate() { this.status = Status.ACTIVATE; }
+    public void activate() { this.status = Status.ACTIVE; }
 }
