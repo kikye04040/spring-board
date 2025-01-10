@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인 페이지</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            background: #f0f0f0;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007BFF;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .message {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>최신 게시글</h1>
+    <ul id="boardList">
+        <!-- 게시글 목록이 여기에 추가됩니다 -->
+    </ul>
+    <p class="message" id="noBoardsMessage" style="display: none;">게시글이 없습니다.</p>
+</div>
+<script>
+    async function loadBoards() {
+        try {
+            const response = await fetch('/boards/latest'); // 최신 게시글 API 호출
+            if (!response.ok) throw new Error('게시글을 불러오는 데 실패했습니다.');
+
+            const boards = await response.json();
+            const boardList = document.getElementById('boardList');
+            const noBoardsMessage = document.getElementById('noBoardsMessage');
+
+            // 게시글이 없는 경우
+            if (boards.length === 0) {
+                noBoardsMessage.style.display = 'block';
+                return;
+            }
+
+            // 게시글 목록 렌더링
+            boards.forEach(board => {
+                const listItem = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = `/board/${board.id}`;
+                link.textContent = board.title;
+
+                listItem.appendChild(link);
+                boardList.appendChild(listItem);
+            });
+        } catch (error) {
+            console.error(error);
+            alert('게시글을 불러오는 도중 오류가 발생했습니다.');
+        }
+    }
+
+    // 페이지 로드 시 게시글 데이터 가져오기
+    document.addEventListener('DOMContentLoaded', loadBoards);
+</script>
+</body>
+</html>
