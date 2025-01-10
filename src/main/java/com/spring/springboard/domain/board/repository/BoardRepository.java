@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @Repository
@@ -18,4 +19,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
                      @Param("description") String description);
 
     Optional<Board> findByIdIncludingDeleted(Long boardId);
+
+    Collection<Board> findTop10ByOrderByCreatedAtDesc();
 }

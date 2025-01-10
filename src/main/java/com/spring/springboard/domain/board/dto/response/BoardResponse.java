@@ -16,6 +16,17 @@ public class BoardResponse {
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
 
+    public static BoardResponse fromEntity(Board board) {
+        return new BoardResponse(
+                board.getId(),
+                board.getTitle(),
+                board.getDescription(),
+                board.getAuthor().getUsername(),
+                board.getCreatedAt(),
+                board.getModifiedAt()
+        );
+    }
+
     public BoardResponse(Board board) {
         this.id = board.getId();
         this.title = board.getTitle();

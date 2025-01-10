@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/boards")
@@ -89,5 +91,11 @@ public class BoardController {
             @AuthenticationPrincipal CustomUserDetails authUser) {
         boardService.incrementDislikeCount(boardId, authUser);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/latest")
+    public ResponseEntity<List<BoardResponse>> getLatestBoards()  {
+        List<BoardResponse> latestBoards = boardService.getLatestBoards();
+        return ResponseEntity.ok(latestBoards);
     }
 }
