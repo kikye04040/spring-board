@@ -110,10 +110,8 @@ public class BoardService {
     }
 
     @Transactional(readOnly = true)
-    public List<BoardResponse> getLatestBoards() {
-        return boardRepository.findTop10ByOrderByCreatedAtDesc()
-                .stream()
-                .map(BoardResponse::fromEntity)
-                .collect(Collectors.toList());
+    public Page<BoardResponse> getLatestBoards(Pageable pageable) {
+        return boardRepository.findTop10ByOrderByCreatedAtDesc(pageable)
+                .map(BoardResponse::fromEntity);
     }
 }

@@ -8,7 +8,9 @@ import com.spring.springboard.domain.user.entity.CustomUserDetails;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -94,8 +96,11 @@ public class BoardController {
     }
 
     @GetMapping("/latest")
-    public ResponseEntity<List<BoardResponse>> getLatestBoards()  {
-        List<BoardResponse> latestBoards = boardService.getLatestBoards();
+    public ResponseEntity<Page<BoardResponse>> getLatestBoards(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "createdAt"));
+        Page<BoardResponse> latestBoards = boardService.getLatestBoards(pageable);
         return ResponseEntity.ok(latestBoards);
     }
 }
