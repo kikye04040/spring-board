@@ -15,6 +15,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class BoardService {
@@ -103,5 +107,11 @@ public class BoardService {
         Board board = boardRepository.findById(boardId)
                 .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_BOARD));
         board.incrementDislikeCount();
+    }
+
+    @Transactional(readOnly = true)
+    public Page<BoardResponse> getLatestBoards(Pageable pageable) {
+        return boardRepository.findTop10ByOrderByCreatedAtDesc(pageable)
+                .map(BoardResponse::fromEntity);
     }
 }

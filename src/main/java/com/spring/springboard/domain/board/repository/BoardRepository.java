@@ -2,11 +2,14 @@ package com.spring.springboard.domain.board.repository;
 
 import com.spring.springboard.domain.board.entity.Board;
 import io.lettuce.core.dynamic.annotation.Param;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @Repository
@@ -18,4 +21,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
                      @Param("description") String description);
 
     Optional<Board> findByIdIncludingDeleted(Long boardId);
+
+    Page<Board> findTop10ByOrderByCreatedAtDesc(Pageable pageable);
 }
