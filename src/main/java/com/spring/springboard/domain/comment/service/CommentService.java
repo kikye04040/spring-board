@@ -93,4 +93,15 @@ public class CommentService {
 
         comment.softDelete();
     }
+
+    @Transactional
+    public void incrementLikeCount(Long commentId, CustomUserDetails authUser) {
+        userRepository.findByEmail(authUser.getEmail())
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_USER));
+
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_COMMENT));
+
+        comment.incrementLikeCount();
+    }
 }

@@ -71,4 +71,13 @@ public class CommentController {
         commentService.deleteCommentAsBoardAuthor(commentId, authUser);
         return ResponseEntity.noContent().build();
     }
+
+    @PatchMapping("/{commentId}/like")
+    public ResponseEntity<Void> incrementLikeCount(
+            @PathVariable Long commentId,
+            @PathVariable String boardId,
+            @AuthenticationPrincipal CustomUserDetails authUser) {
+        commentService.incrementLikeCount(commentId, authUser);
+        return ResponseEntity.noContent().build();
+    }
 }
