@@ -58,7 +58,7 @@ public class CommentService {
             throw new ApiException(ErrorStatus.FORBIDDEN_COMMENT_ACCESS);
         }
 
-        commentRepository.delete(comment);
+        comment.softDelete();
     }
 
     @Transactional

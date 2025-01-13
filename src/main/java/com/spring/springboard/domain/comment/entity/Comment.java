@@ -50,6 +50,10 @@ public class Comment extends Timestamped {
         }
     }
 
+    public void softDelete() {
+        this.deleted = true;
+    }
+
     public void incrementLikeCount() {
         this.likeCount++;
     }
