@@ -62,4 +62,13 @@ public class CommentController {
         List<Comment> comments = commentService.getCommentsByLikes(boardId, authUser);
         return ResponseEntity.ok(comments);
     }
+
+    @DeleteMapping("/{commentId}/boardAuthor")
+    public ResponseEntity<Void> deleteCommentAsBoardAuthor(
+            @PathVariable Long commentId,
+            @PathVariable String boardId,
+            @AuthenticationPrincipal CustomUserDetails authUser) {
+        commentService.deleteCommentAsBoardAuthor(commentId, authUser);
+        return ResponseEntity.noContent().build();
+    }
 }

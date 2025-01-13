@@ -76,4 +76,21 @@ public class CommentService {
 
         return commentRepository.findByBoardIdOrderByLikeCountDesc(boardId);
     }
+
+    @Transactional
+    public void deleteCommentAsBoardAuthor(long commentId, CustomUserDetails authUser) {
+        userRepository.findByEmail(authUser.getEmail())
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_USER));
+
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new ApiException(ErrorStatus.NOT_FOUND_COMMENT));
+
+        Board board = comment.getBoard();
+
+        if (!board.getAuthor().getEmail().equals(authUser.getEmail())) {
+            throw new ApiException(ErrorStatus.FORBIDDEN_COMMENT_ACCESS);
+        }
+
+        comment.softDelete();
+    }
 }
