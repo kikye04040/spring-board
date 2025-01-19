@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ADMIN')")
-@RequestMapping("/admin/users")
+@RequestMapping("/admin")
 public class AdminController {
     private final AdminService adminService;
 
-    @GetMapping
+    @GetMapping("/users")
     public ResponseEntity<Page<UserResponse>> getAllUsers(Pageable pageable) {
         Page<UserResponse> users = adminService.getAllUsers(pageable);
         return ResponseEntity.ok(users);
     }
 
-    @PutMapping("/restore/{userId}")
+    @PutMapping("/users/restore/{userId}")
     public ResponseEntity<Void> restoreUser(@PathVariable Long userId) {
         adminService.restoreUser(userId);
         return ResponseEntity.noContent().build();
